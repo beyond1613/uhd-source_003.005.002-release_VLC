@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['bcast',['bcast',['../structuhd_1_1transport_1_1if__addrs__t.html#af5211dfae676fe6ec5b0fb7378f43968',1,'uhd::transport::if_addrs_t']]],
+  ['bo_5fbig_5fendian',['BO_BIG_ENDIAN',['../structuhd_1_1otw__type__t.html#a3e813d310c7c73335620010ee9648983a5c9d721ec8edfb899b1704cd70904be4',1,'uhd::otw_type_t']]],
+  ['bo_5flittle_5fendian',['BO_LITTLE_ENDIAN',['../structuhd_1_1otw__type__t.html#a3e813d310c7c73335620010ee9648983a0c2f7178dbea0ef02c45bae7a1d8d646',1,'uhd::otw_type_t']]],
+  ['bo_5fnative',['BO_NATIVE',['../structuhd_1_1otw__type__t.html#a3e813d310c7c73335620010ee9648983af2dc214b6aef4ba3caa49b18041867b6',1,'uhd::otw_type_t']]],
+  ['bo_5fnot_5fapplicable',['BO_NOT_APPLICABLE',['../structuhd_1_1otw__type__t.html#a3e813d310c7c73335620010ee9648983aa26e4bff795c8269b2db19aa887c2b4c',1,'uhd::otw_type_t']]],
+  ['boolean',['BOOLEAN',['../structuhd_1_1sensor__value__t.html#a1f6bf20f81b094c002bf06e3903a37e1a67990358f836e48528775f518d975469',1,'uhd::sensor_value_t']]],
+  ['boost_5fipc_5fdetail',['BOOST_IPC_DETAIL',['../atomic_8hpp.html#a9c44e656bd6e88bbde00d37b1e09cda5',1,'atomic.hpp']]],
+  ['bounded_5fbuffer',['bounded_buffer',['../classuhd_1_1transport_1_1bounded__buffer.html#a0e935871b34ab07cb87cf5dcbb08f488',1,'uhd::transport::bounded_buffer']]],
+  ['bounded_5fbuffer',['bounded_buffer',['../classuhd_1_1transport_1_1bounded__buffer.html',1,'uhd::transport']]],
+  ['bounded_5fbuffer_2ehpp',['bounded_buffer.hpp',['../bounded__buffer_8hpp.html',1,'']]],
+  ['branch_5fpath',['branch_path',['../structuhd_1_1fs__path.html#ae552be415f82ccd1a97cc307e7455987',1,'uhd::fs_path']]],
+  ['buffer_5fpool',['buffer_pool',['../classuhd_1_1transport_1_1buffer__pool.html',1,'uhd::transport']]],
+  ['buffer_5fpool_2ehpp',['buffer_pool.hpp',['../buffer__pool_8hpp.html',1,'']]],
+  ['buffs_5ftype',['buffs_type',['../classuhd_1_1rx__streamer.html#a25d1b4cbd0233a8b7a692503053438ac',1,'uhd::rx_streamer::buffs_type()'],['../classuhd_1_1tx__streamer.html#a06f6341bfa89bc755f262cbbfb616fbd',1,'uhd::tx_streamer::buffs_type()']]],
+  ['byte_5fvector_5ft',['byte_vector_t',['../namespaceuhd.html#ae9056b4bb9e7a6c9ed57bf5bb4b8e893',1,'uhd']]],
+  ['byteorder',['byteorder',['../structuhd_1_1otw__type__t.html#a8d9ea1457c64ae68b3db89be5a5288a4',1,'uhd::otw_type_t']]],
+  ['byteswap',['byteswap',['../namespaceuhd.html#a8302fc983885b359cb08f19c7f6587e7',1,'uhd::byteswap(boost::uint16_t)'],['../namespaceuhd.html#a13dc110d58ff3beda41c470f33c0bb1a',1,'uhd::byteswap(boost::uint32_t)'],['../namespaceuhd.html#aab5c79b8ff10766442fd5333fe3b1303',1,'uhd::byteswap(boost::uint64_t)']]],
+  ['byteswap_2ehpp',['byteswap.hpp',['../byteswap_8hpp.html',1,'']]]
+];

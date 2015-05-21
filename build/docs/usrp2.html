@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>UHD - USRP2 and N2X0 Series Application Notes</title>
+<style type="text/css">
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11pt;
+color:black;
+background-color:white;
+width:90%;
+margin:0 auto 0 auto;
+}
+
+div.document div.contents{
+border:1px solid #333333;
+padding:10px 30px 10px 10px;
+margin-left:50px;
+color:inherit;
+background-color:#FCFCFC;
+display:inline-block;
+}
+
+div.document p.topic-title{
+font-weight:bold;
+}
+
+div.document a:link, div.document a:visited{
+color:#236B8E;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document a:hover{
+color:#4985D6;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document h1.title{
+font-size:150%;
+border-left:1px solid #333333;
+border-bottom:1px solid #333333;
+text-align:left;
+padding:10px 0px 10px 10px;
+margin:10px 5px 20px 5px;
+color:#333333;
+background-color:inherit;
+}
+
+div.document h2.subtitle, div.section h1{
+margin-top:50px;
+border-bottom:1px solid #333333;
+font-size:140%;
+text-align:center;
+padding:20px 0px 10px 0px;
+color:#333333;
+background-color:inherit;
+}
+
+div.section h2{
+font-size:110%;
+text-align:left;
+padding:15px 0px 5px 0px;
+text-decoration:underline;
+color:#333333;
+background-color:inherit;
+}
+
+div.document pre.literal-block{
+border:1px inset #333333;
+padding:5px;
+margin:10px 5px 10px 5px;
+color:inherit;
+background-color:#FCFCFC;
+font-size:90%;
+}
+
+div.document table{
+padding:5px;
+font-size:95%;
+}
+
+div.document th{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#ECECEC;
+}
+
+div.document tr{
+}
+
+div.document td{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#FCFCFC;
+}
+
+div.footer{
+margin:50px auto 30px auto;
+text-align:center;
+font-size:85%;
+}
+
+</style>
+</head>
+<body>
+<div class="document" id="uhd-usrp2-and-n2x0-series-application-notes">
+<h1 class="title">UHD - USRP2 and N2X0 Series Application Notes</h1>
+
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#comparative-features-list" id="id1">Comparative features list</a></li>
+<li><a class="reference internal" href="#load-the-images-onto-the-sd-card-usrp2-only" id="id2">Load the Images onto the SD card (USRP2 only)</a><ul>
+<li><a class="reference internal" href="#use-the-card-burner-tool-unix" id="id3">Use the card burner tool (UNIX)</a></li>
+<li><a class="reference internal" href="#use-the-card-burner-tool-windows" id="id4">Use the card burner tool (Windows)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#load-the-images-onto-the-on-board-flash-usrp-n-series-only" id="id5">Load the Images onto the On-board Flash (USRP-N Series only)</a><ul>
+<li><a class="reference internal" href="#use-the-net-burner-tool-unix" id="id6">Use the net burner tool (UNIX)</a></li>
+<li><a class="reference internal" href="#use-the-net-burner-tool-windows" id="id7">Use the net burner tool (Windows)</a></li>
+<li><a class="reference internal" href="#burning-images-without-python" id="id8">Burning images without Python</a></li>
+<li><a class="reference internal" href="#device-recovery-and-bricking" id="id9">Device recovery and bricking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setup-networking" id="id10">Setup Networking</a><ul>
+<li><a class="reference internal" href="#setup-the-host-interface" id="id11">Setup the host interface</a></li>
+<li><a class="reference internal" href="#multiple-devices-per-host" id="id12">Multiple devices per host</a></li>
+<li><a class="reference internal" href="#change-the-usrp2-s-ip-address" id="id13">Change the USRP2's IP address</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#communication-problems" id="id14">Communication Problems</a><ul>
+<li><a class="reference internal" href="#runtimeerror-no-control-response" id="id15">RuntimeError: no control response</a></li>
+<li><a class="reference internal" href="#firewall-issues" id="id16">Firewall issues</a></li>
+<li><a class="reference internal" href="#ping-the-device" id="id17">Ping the device</a></li>
+<li><a class="reference internal" href="#monitor-the-serial-output" id="id18">Monitor the serial output</a></li>
+<li><a class="reference internal" href="#monitor-the-host-network-traffic" id="id19">Monitor the host network traffic</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#addressing-the-device" id="id20">Addressing the Device</a><ul>
+<li><a class="reference internal" href="#single-device-configuration" id="id21">Single device configuration</a></li>
+<li><a class="reference internal" href="#multiple-device-configuration" id="id22">Multiple device configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-the-mimo-cable" id="id23">Using the MIMO Cable</a><ul>
+<li><a class="reference internal" href="#shared-ethernet-mode" id="id24">Shared ethernet mode</a></li>
+<li><a class="reference internal" href="#dual-ethernet-mode" id="id25">Dual ethernet mode</a></li>
+<li><a class="reference internal" href="#configuring-the-slave" id="id26">Configuring the slave</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#alternative-stream-destination" id="id27">Alternative stream destination</a><ul>
+<li><a class="reference internal" href="#set-the-subnet-and-gateway" id="id28">Set the subnet and gateway</a></li>
+<li><a class="reference internal" href="#create-a-receive-streamer" id="id29">Create a receive streamer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hardware-setup-notes" id="id30">Hardware Setup Notes</a><ul>
+<li><a class="reference internal" href="#front-panel-leds" id="id31">Front panel LEDs</a></li>
+<li><a class="reference internal" href="#ref-clock-10mhz" id="id32">Ref Clock - 10MHz</a></li>
+<li><a class="reference internal" href="#pps-pulse-per-second" id="id33">PPS - Pulse Per Second</a></li>
+<li><a class="reference internal" href="#internal-gpsdo" id="id34">Internal GPSDO</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#miscellaneous" id="id35">Miscellaneous</a><ul>
+<li><a class="reference internal" href="#available-sensors" id="id36">Available Sensors</a></li>
+<li><a class="reference internal" href="#multiple-rx-channels" id="id37">Multiple RX channels</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="comparative-features-list">
+<h1>Comparative features list</h1>
+<ul class="simple">
+<li>1 transceiver card slot</li>
+<li>2 RX DDC chains in FPGA</li>
+<li>1 TX DUC chain in FPGA</li>
+<li>Timed commands in FPGA (N2x0 only)</li>
+<li>Timed sampling in FPGA</li>
+<li>External PPS reference</li>
+<li>External 10MHz reference</li>
+<li>MIMO cable shared reference</li>
+<li>Fixed 100 MHz clock rate</li>
+<li>Internal GPSDO option (N2x0 only)</li>
+<li>sc8 and sc16 sample modes</li>
+</ul>
+</div>
+<div class="section" id="load-the-images-onto-the-sd-card-usrp2-only">
+<h1>Load the Images onto the SD card (USRP2 only)</h1>
+<p><strong>Warning!</strong>
+Use <strong>usrp2_card_burner.py</strong> with caution. If you specify the wrong device node,
+you could overwrite your hard drive. Make sure that <strong>--dev=</strong> specifies the SD card.</p>
+<p><strong>Warning!</strong>
+It is possible to use 3rd party SD cards with the USRP2.
+However, certain types of SD cards will not interface with the CPLD:</p>
+<ul class="simple">
+<li>Cards can be SDHC, which is not a supported interface.</li>
+<li>Cards can have unexpected timing characteristics.</li>
+</ul>
+<p>For these reasons, we recommend that you use the SD card that was supplied with the USRP2.</p>
+<div class="section" id="use-the-card-burner-tool-unix">
+<h2>Use the card burner tool (UNIX)</h2>
+<pre class="literal-block">
+sudo &lt;install-path&gt;/share/uhd/utils/usrp2_card_burner_gui.py
+
+-- OR --
+
+cd &lt;install-path&gt;/share/uhd/utils
+sudo ./usrp2_card_burner.py --dev=/dev/sd&lt;XXX&gt; --fpga=&lt;path_to_fpga_image&gt;
+sudo ./usrp2_card_burner.py --dev=/dev/sd&lt;XXX&gt; --fw=&lt;path_to_firmware_image&gt;
+</pre>
+<p>Use the <strong>--list</strong> option to get a list of possible raw devices.
+The list result will filter out disk partitions and devices too large to be the sd card.
+The list option has been implemented on Linux, Mac OS X, and Windows.</p>
+</div>
+<div class="section" id="use-the-card-burner-tool-windows">
+<h2>Use the card burner tool (Windows)</h2>
+<pre class="literal-block">
+&lt;path_to_python.exe&gt; &lt;install-path&gt;/share/uhd/utils/usrp2_card_burner_gui.py
+</pre>
+</div>
+</div>
+<div class="section" id="load-the-images-onto-the-on-board-flash-usrp-n-series-only">
+<h1>Load the Images onto the On-board Flash (USRP-N Series only)</h1>
+<p>The USRP-N Series can be reprogrammed over the network
+to update or change the firmware and FPGA images.
+When updating images, always burn both the FPGA and firmware images before power cycling.
+This ensures that when the device reboots, it has a compatible set of images to boot into.</p>
+<p><strong>Note:</strong>
+Different hardware revisions require different FPGA images.
+Determine the revision number from the sticker on the rear of the chassis.
+Use this number to select the correct FPGA image for your device.</p>
+<div class="section" id="use-the-net-burner-tool-unix">
+<h2>Use the net burner tool (UNIX)</h2>
+<pre class="literal-block">
+&lt;install-path&gt;/share/uhd/utils/usrp_n2xx_net_burner_gui.py
+
+-- OR --
+
+cd &lt;install-path&gt;/share/uhd/utils
+./usrp_n2xx_net_burner.py --addr=&lt;ip address&gt; --fw=&lt;path for firmware image&gt;
+./usrp_n2xx_net_burner.py --addr=&lt;ip address&gt; --fpga=&lt;path to FPGA image&gt;
+</pre>
+</div>
+<div class="section" id="use-the-net-burner-tool-windows">
+<h2>Use the net burner tool (Windows)</h2>
+<pre class="literal-block">
+&lt;path_to_python.exe&gt; &lt;install-path&gt;/share/uhd/utils/usrp_n2xx_net_burner_gui.py
+</pre>
+</div>
+<div class="section" id="burning-images-without-python">
+<h2>Burning images without Python</h2>
+<p>For users who do not wish to install Python, a new script is available in UHD 003.005.000:
+the USRP N2XX Simple Net Burner. It provides the same functionality as its Python
+counterpart, but by default, it automatically installs the default images without the user needing
+to specify their location on the command line.</p>
+<p>The utility can be found at: <strong>&lt;install-path&gt;/share/uhd/utils/usrp_n2xx_simple_net_burner</strong></p>
+</div>
+<div class="section" id="device-recovery-and-bricking">
+<h2>Device recovery and bricking</h2>
+<p>Its possible to put the device into an unusable state by loading bad images.
+Fortunately, the USRP-N Series can be booted into a safe (read-only) image.
+Once booted into the safe image, the user can once again load images onto the device.</p>
+<p>The safe-mode button is a pushbutton switch (S2) located inside the enclosure.
+To boot into the safe image, hold-down the safe-mode button while power-cycling the device.
+Continue to hold-down the button until the front-panel LEDs blink and remain solid.</p>
+<p>When in safe-mode, the USRP-N device will always have the IP address <strong>192.168.10.2</strong>.</p>
+</div>
+</div>
+<div class="section" id="setup-networking">
+<h1>Setup Networking</h1>
+<p>The USRP2 only supports Gigabit Ethernet
+and will not work with a 10/100 Mbps interface.
+However, a 10/100 Mbps interface can be connected indirectly
+to a USRP2 through a Gigabit Ethernet switch.</p>
+<div class="section" id="setup-the-host-interface">
+<h2>Setup the host interface</h2>
+<p>The USRP2 communicates at the IP/UDP layer over the gigabit ethernet.
+The default IP address of the USRP2 is <strong>192.168.10.2</strong>.
+You will need to configure the host's Ethernet interface with a static IP
+address to enable communication.  An address of <strong>192.168.10.1</strong> and a subnet
+mask of <strong>255.255.255.0</strong> is recommended.</p>
+<p>On a Linux system, you can set a static IP address very easily by using the
+'ifconfig' command:</p>
+<pre class="literal-block">
+sudo ifconfig &lt;interface&gt; 192.168.10.1
+</pre>
+<p>Note that <strong>&lt;interface&gt;</strong> is usually something like <strong>eth0</strong>.  You can discover the
+names of the network interfaces in your computer by running <strong>ifconfig</strong> without
+any parameters:</p>
+<pre class="literal-block">
+ifconfig -a
+</pre>
+<p><strong>Note:</strong>
+When using UHD, if an IP address for the USRP2 is not specified,
+the software will use UDP broadcast packets to locate the USRP2.
+On some systems, the firewall will block UDP broadcast packets.
+It is recommended that you change or disable your firewall settings.</p>
+</div>
+<div class="section" id="multiple-devices-per-host">
+<h2>Multiple devices per host</h2>
+<p>For maximum throughput, one Ethernet interface per USRP2 is recommended,
+although multiple devices may be connected via a Gigabit Ethernet switch.
+In any case, each Ethernet interface should have its own subnet,
+and the corresponding USRP2 device should be assigned an address in that subnet.
+Example:</p>
+<p><strong>Configuration for USRP2 device 0:</strong></p>
+<ul class="simple">
+<li>Ethernet interface IPv4 address: <strong>192.168.10.1</strong></li>
+<li>Ethernet interface subnet mask: <strong>255.255.255.0</strong></li>
+<li>USRP2 device IPv4 address: <strong>192.168.10.2</strong></li>
+</ul>
+<p><strong>Configuration for USRP2 device 1:</strong></p>
+<ul class="simple">
+<li>Ethernet interface IPv4 address: <strong>192.168.20.1</strong></li>
+<li>Ethernet interface subnet mask: <strong>255.255.255.0</strong></li>
+<li>USRP2 device IPv4 address: <strong>192.168.20.2</strong></li>
+</ul>
+</div>
+<div class="section" id="change-the-usrp2-s-ip-address">
+<h2>Change the USRP2's IP address</h2>
+<p>You may need to change the USRP2's IP address for several reasons:</p>
+<ul class="simple">
+<li>to satisfy your particular network configuration</li>
+<li>to use multiple USRP2s on the same host computer</li>
+<li>to set a known IP address into USRP2 (in case you forgot)</li>
+</ul>
+<p><strong>Method 1:</strong>
+To change the USRP2's IP address,
+you must know the current address of the USRP2,
+and the network must be setup properly as described above.
+Run the following commands:</p>
+<pre class="literal-block">
+cd &lt;install-path&gt;/share/uhd/utils
+./usrp_burn_mb_eeprom --args=&lt;optional device args&gt; --key=ip-addr --val=192.168.10.3
+</pre>
+<p><strong>Method 2 (Linux Only):</strong>
+This method assumes that you do not know the IP address of your USRP2.
+It uses raw Ethernet packets to bypass the IP/UDP layer to communicate with the USRP2.
+Run the following commands:</p>
+<pre class="literal-block">
+cd &lt;install-path&gt;/share/uhd/utils
+sudo ./usrp2_recovery.py --ifc=eth0 --new-ip=192.168.10.3
+</pre>
+</div>
+</div>
+<div class="section" id="communication-problems">
+<h1>Communication Problems</h1>
+<p>When setting up a development machine for the first time,
+you may have various difficulties communicating with the USRP device.
+The following tips are designed to help narrow down and diagnose the problem.</p>
+<div class="section" id="runtimeerror-no-control-response">
+<h2>RuntimeError: no control response</h2>
+<p>This is a common error that occurs when you have set the subnet of your network
+interface to a different subnet than the network interface of the USRP.  For
+example, if your network interface is set to <strong>192.168.20.1</strong>, and the USRP is
+<strong>192.168.10.2</strong> (note the difference in the third numbers of the IP addresses), you
+will likely see a 'no control response' error message.</p>
+<p>Fixing this is simple - just set the your host PC's IP address to the same
+subnet as that of your USRP. Instructions for setting your IP address are in the
+previous section of this documentation.</p>
+</div>
+<div class="section" id="firewall-issues">
+<h2>Firewall issues</h2>
+<p>When the IP address is not specified,
+the device discovery broadcasts UDP packets from each ethernet interface.
+Many firewalls will block the replies to these broadcast packets.
+If disabling your system's firewall
+or specifying the IP address yields a discovered device,
+then your firewall may be blocking replies to UDP broadcast packets.
+If this is the case, we recommend that you disable the firewall
+or create a rule to allow all incoming packets with UDP source port <strong>49152</strong>.</p>
+</div>
+<div class="section" id="ping-the-device">
+<h2>Ping the device</h2>
+<p>The USRP will reply to ICMP echo requests.
+A successful ping response means that the device has booted properly
+and that it is using the expected IP address.</p>
+<pre class="literal-block">
+ping 192.168.10.2
+</pre>
+</div>
+<div class="section" id="monitor-the-serial-output">
+<h2>Monitor the serial output</h2>
+<p>Read the serial port to get debug verbose output from the embedded microcontroller.
+The microcontroller prints useful information about IP addresses,
+MAC addresses, control packets, fast-path settings, and bootloading.
+Use a standard USB to 3.3v-level serial converter at 230400 baud.
+Connect <strong>GND</strong> to the converter ground, and connect <strong>TXD</strong> to the converter receive.
+The <strong>RXD</strong> pin can be left unconnected as this is only a one-way communication.</p>
+<ul class="simple">
+<li><strong>USRP2:</strong> Serial port located on the rear edge</li>
+<li><strong>N210:</strong> Serial port located on the left side</li>
+</ul>
+</div>
+<div class="section" id="monitor-the-host-network-traffic">
+<h2>Monitor the host network traffic</h2>
+<p>Use Wireshark to monitor packets sent to and received from the device.</p>
+</div>
+</div>
+<div class="section" id="addressing-the-device">
+<h1>Addressing the Device</h1>
+<div class="section" id="single-device-configuration">
+<h2>Single device configuration</h2>
+<p>In a single-device configuration,
+the USRP device must have a unique IPv4 address on the host computer.
+The USRP can be identified through its IPv4 address, resolvable hostname, or by other means.
+See the application notes on <a class="reference external" href="./identification.html">device identification</a>.
+Use this addressing scheme with the <strong>single_usrp</strong> interface.</p>
+<p>Example device address string representation for a USRP2 with IPv4 address <strong>192.168.10.2</strong>:</p>
+<pre class="literal-block">
+addr=192.168.10.2
+</pre>
+</div>
+<div class="section" id="multiple-device-configuration">
+<h2>Multiple device configuration</h2>
+<p>In a multi-device configuration,
+each USRP device must have a unique IPv4 address on the host computer.
+The device address parameter keys must be suffixed with the device index.
+Each parameter key should be of the format &lt;key&gt;&lt;index&gt;.
+Use this addressing scheme with the <strong>multi_usrp</strong> interface.</p>
+<ul class="simple">
+<li>The order in which devices are indexed corresponds to the indexing of the transmit and receive channels.</li>
+<li>The key indexing provides the same granularity of device identification as in the single device case.</li>
+</ul>
+<p>Example device address string representation for 2 USRP2s with IPv4 addresses <strong>192.168.10.2</strong> and <strong>192.168.20.2</strong>:</p>
+<pre class="literal-block">
+addr0=192.168.10.2, addr1=192.168.20.2
+</pre>
+</div>
+</div>
+<div class="section" id="using-the-mimo-cable">
+<h1>Using the MIMO Cable</h1>
+<p>The MIMO cable allows two USRP devices to share reference clocks,
+time synchronization, and the Ethernet interface.
+One of the devices will sync its clock and time references to the MIMO cable.
+This device will be referred to as the slave, and the other device, the master.</p>
+<ul class="simple">
+<li>The slave device acquires the clock and time references from the master device.</li>
+<li>The master and slave may be used individually or in a multi-device configuration.</li>
+<li>External clocking is optional and should only be supplied to the master device.</li>
+</ul>
+<div class="section" id="shared-ethernet-mode">
+<h2>Shared ethernet mode</h2>
+<p>In shared Ethernet mode,
+only one device in the configuration can be attached to the Ethernet.</p>
+<ul class="simple">
+<li>Clock reference, time reference, and data are communicated over the MIMO cable.</li>
+<li>Master and slave must have different IPv4 addresses in the same subnet.</li>
+</ul>
+</div>
+<div class="section" id="dual-ethernet-mode">
+<h2>Dual ethernet mode</h2>
+<p>In dual Ethernet mode,
+both devices in the configuration must be attached to the Ethernet.</p>
+<ul class="simple">
+<li>Only clock reference and time reference are communicated over the MIMO cable.</li>
+<li>The master and slave must have different IPv4 addresses in different subnets.</li>
+</ul>
+</div>
+<div class="section" id="configuring-the-slave">
+<h2>Configuring the slave</h2>
+<p>In order for the slave to synchronize to the master over MIMO cable,
+the following clock configuration must be set on the slave device:</p>
+<pre class="literal-block">
+uhd::clock_config_t clock_config;
+clock_config.ref_source = uhd::clock_config_t::REF_MIMO;
+clock_config.pps_source = uhd::clock_config_t::PPS_MIMO;
+usrp-&gt;set_clock_config(clock_config, slave_index);
+</pre>
+</div>
+</div>
+<div class="section" id="alternative-stream-destination">
+<h1>Alternative stream destination</h1>
+<p>It is possible to program the USRP to send RX packets to an alternative IP/UDP destination.</p>
+<div class="section" id="set-the-subnet-and-gateway">
+<h2>Set the subnet and gateway</h2>
+<p>To use an alternative streaming destination,
+the device needs to be able to determine if the destination address
+is within its subnet, and ARP appropriately.
+Therefore, the user should ensure that subnet and gateway addresses
+have been programmed into the device's EEPROM.</p>
+<p>Run the following commands:</p>
+<pre class="literal-block">
+cd &lt;install-path&gt;/share/uhd/utils
+./usrp_burn_mb_eeprom --args=&lt;optional device args&gt; --key=subnet --val=255.255.255.0
+./usrp_burn_mb_eeprom --args=&lt;optional device args&gt; --key=gateway --val=192.168.10.1
+</pre>
+</div>
+<div class="section" id="create-a-receive-streamer">
+<h2>Create a receive streamer</h2>
+<p>Set the stream args &quot;addr&quot; and &quot;port&quot; values to the alternative destination.
+Packets will be sent to this destination when the user issues a stream command.</p>
+<pre class="literal-block">
+//create a receive streamer, host type does not matter
+uhd::stream_args_t stream_args(&quot;fc32&quot;);
+
+//resolvable address and port for a remote udp socket
+stream_args.args[&quot;addr&quot;] = &quot;192.168.10.42&quot;;
+stream_args.args[&quot;port&quot;] = &quot;12345&quot;;
+
+//create the streamer
+uhd::rx_streamer::sptr rx_stream = usrp-&gt;get_rx_stream(stream_args);
+
+//issue stream command
+uhd::stream_cmd_t stream_cmd(uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE);
+stream_cmd.num_samps = total_num_samps;
+stream_cmd.stream_now = true;
+usrp-&gt;issue_stream_cmd(stream_cmd);
+</pre>
+<p><strong>Note:</strong>
+Calling recv() on this streamer object should yield a timeout.</p>
+</div>
+</div>
+<div class="section" id="hardware-setup-notes">
+<h1>Hardware Setup Notes</h1>
+<div class="section" id="front-panel-leds">
+<h2>Front panel LEDs</h2>
+<p>The LEDs on the front panel can be useful in debugging hardware and software issues.
+The LEDs reveal the following about the state of the device:</p>
+<ul class="simple">
+<li><strong>LED A:</strong> transmitting</li>
+<li><strong>LED B:</strong> mimo cable link</li>
+<li><strong>LED C:</strong> receiving</li>
+<li><strong>LED D:</strong> firmware loaded</li>
+<li><strong>LED E:</strong> reference lock</li>
+<li><strong>LED F:</strong> CPLD loaded</li>
+</ul>
+</div>
+<div class="section" id="ref-clock-10mhz">
+<h2>Ref Clock - 10MHz</h2>
+<p>Using an external 10MHz reference clock, a square wave will offer the best phase
+noise performance, but a sinusoid is acceptable.  The reference clock requires the following power level:</p>
+<ul class="simple">
+<li><strong>USRP2</strong> 5 to 15dBm</li>
+<li><strong>N2XX</strong> 0 to 15dBm</li>
+</ul>
+</div>
+<div class="section" id="pps-pulse-per-second">
+<h2>PPS - Pulse Per Second</h2>
+<p>Using a PPS signal for timestamp synchronization requires a square wave signal with the following amplitude:</p>
+<ul class="simple">
+<li><strong>USRP2</strong> 5Vpp</li>
+<li><strong>N2XX</strong> 3.3 to 5Vpp</li>
+</ul>
+<p>Test the PPS input with the following app:</p>
+<ul class="simple">
+<li><strong>&lt;args&gt;</strong> are device address arguments (optional if only one USRP is on your machine)</li>
+</ul>
+<pre class="literal-block">
+cd &lt;install-path&gt;/share/uhd/examples
+./test_pps_input --args=&lt;args&gt;
+</pre>
+</div>
+<div class="section" id="internal-gpsdo">
+<h2>Internal GPSDO</h2>
+<p>Please see the <a class="reference external" href="./gpsdo.html">Internal GPSDO Application Notes</a>
+for information on configuring and using the internal GPSDO.</p>
+</div>
+</div>
+<div class="section" id="miscellaneous">
+<h1>Miscellaneous</h1>
+<div class="section" id="available-sensors">
+<h2>Available Sensors</h2>
+<p>The following sensors are available for the USRP2/N-Series motherboards;
+they can be queried through the API.</p>
+<ul class="simple">
+<li><strong>mimo_locked</strong> - clock reference locked over the MIMO cable</li>
+<li><strong>ref_locked</strong> - clock reference locked (internal/external)</li>
+<li>other sensors are added when the GPSDO is enabled</li>
+</ul>
+</div>
+<div class="section" id="multiple-rx-channels">
+<h2>Multiple RX channels</h2>
+<p>There are two complete DDC chains in the FPGA.
+In the single channel case, only one chain is ever used.
+To receive from both channels,
+the user must set the <strong>RX</strong> subdevice specification.
+This hardware has only one daughterboard slot,
+which has been aptly named slot <strong>A</strong>.</p>
+<p>In the following example, a TVRX2 is installed.
+Channel 0 is sourced from subdevice <strong>RX1</strong>,
+and channel 1 is sourced from subdevice <strong>RX2</strong>:</p>
+<pre class="literal-block">
+usrp-&gt;set_rx_subdev_spec(&quot;A:RX1 A:RX2&quot;);
+</pre>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+Generated on: 2015-05-18 08:53 UTC.
+
+</div>
+</body>
+</html>

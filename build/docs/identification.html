@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>UHD - Device Identification Notes</title>
+<style type="text/css">
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11pt;
+color:black;
+background-color:white;
+width:90%;
+margin:0 auto 0 auto;
+}
+
+div.document div.contents{
+border:1px solid #333333;
+padding:10px 30px 10px 10px;
+margin-left:50px;
+color:inherit;
+background-color:#FCFCFC;
+display:inline-block;
+}
+
+div.document p.topic-title{
+font-weight:bold;
+}
+
+div.document a:link, div.document a:visited{
+color:#236B8E;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document a:hover{
+color:#4985D6;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document h1.title{
+font-size:150%;
+border-left:1px solid #333333;
+border-bottom:1px solid #333333;
+text-align:left;
+padding:10px 0px 10px 10px;
+margin:10px 5px 20px 5px;
+color:#333333;
+background-color:inherit;
+}
+
+div.document h2.subtitle, div.section h1{
+margin-top:50px;
+border-bottom:1px solid #333333;
+font-size:140%;
+text-align:center;
+padding:20px 0px 10px 0px;
+color:#333333;
+background-color:inherit;
+}
+
+div.section h2{
+font-size:110%;
+text-align:left;
+padding:15px 0px 5px 0px;
+text-decoration:underline;
+color:#333333;
+background-color:inherit;
+}
+
+div.document pre.literal-block{
+border:1px inset #333333;
+padding:5px;
+margin:10px 5px 10px 5px;
+color:inherit;
+background-color:#FCFCFC;
+font-size:90%;
+}
+
+div.document table{
+padding:5px;
+font-size:95%;
+}
+
+div.document th{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#ECECEC;
+}
+
+div.document tr{
+}
+
+div.document td{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#FCFCFC;
+}
+
+div.footer{
+margin:50px auto 30px auto;
+text-align:center;
+font-size:85%;
+}
+
+</style>
+</head>
+<body>
+<div class="document" id="uhd-device-identification-notes">
+<h1 class="title">UHD - Device Identification Notes</h1>
+
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#identifying-usrps" id="id1">Identifying USRPs</a><ul>
+<li><a class="reference internal" href="#common-device-identifiers" id="id2">Common device identifiers</a></li>
+<li><a class="reference internal" href="#device-discovery-via-command-line" id="id3">Device discovery via command line</a></li>
+<li><a class="reference internal" href="#device-discovery-through-the-api" id="id4">Device discovery through the API</a></li>
+<li><a class="reference internal" href="#device-properties" id="id5">Device properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#naming-a-usrp" id="id6">Naming a USRP</a><ul>
+<li><a class="reference internal" href="#set-a-custom-name" id="id7">Set a custom name</a></li>
+<li><a class="reference internal" href="#discovery-via-name" id="id8">Discovery via name</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="identifying-usrps">
+<h1>Identifying USRPs</h1>
+<p>Devices are addressed through key/value string pairs.
+These string pairs can be used to narrow down the search for a specific device or group of devices.
+Most UHD utility applications and examples have an <strong>--args</strong> parameter that takes a device address, which is expressed as a delimited string.</p>
+<p>See the documentation in <strong>types/device_addr.hpp</strong> for reference.</p>
+<div class="section" id="common-device-identifiers">
+<h2>Common device identifiers</h2>
+<p>Every device has several ways of identifying it on the host system:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="18%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Identifier</th>
+<th class="head">Key</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Serial</td>
+<td>serial</td>
+<td>globally unique identifier</td>
+</tr>
+<tr><td>Address</td>
+<td>addr</td>
+<td>unique identifier on a network</td>
+</tr>
+<tr><td>Name</td>
+<td>name</td>
+<td>optional user-set identifier</td>
+</tr>
+<tr><td>Type</td>
+<td>type</td>
+<td>hardware series identifier</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="device-discovery-via-command-line">
+<h2>Device discovery via command line</h2>
+<p>Devices attached to your system can be discovered using the <strong>uhd_find_devices</strong> program.
+This program scans your system for supported devices and prints
+out an enumerated list of discovered devices and their addresses.
+The list of discovered devices can be narrowed down by specifying device address args.</p>
+<pre class="literal-block">
+uhd_find_devices
+</pre>
+<p>Device address arguments can be supplied to narrow the scope of the search.</p>
+<pre class="literal-block">
+uhd_find_devices --args=&quot;type=usrp1&quot;
+
+-- OR --
+
+uhd_find_devices --args=&quot;serial=12345678&quot;
+</pre>
+</div>
+<div class="section" id="device-discovery-through-the-api">
+<h2>Device discovery through the API</h2>
+<p>The <strong>device::find()</strong> API call searches for devices and returns a list of discovered devices.</p>
+<pre class="literal-block">
+uhd::device_addr_t hint; //an empty hint discovers all devices
+uhd::device_addrs_t dev_addrs = uhd::device::find(hint);
+</pre>
+<p>The <strong>hint</strong> argument can be populated to narrow the scope of the search.</p>
+<pre class="literal-block">
+uhd::device_addr_t hint;
+hint[&quot;type&quot;] = &quot;usrp1&quot;;
+uhd::device_addrs_t dev_addrs = uhd::device::find(hint);
+
+-- OR --
+
+uhd::device_addr_t hint;
+hint[&quot;serial&quot;] = &quot;12345678&quot;;
+uhd::device_addrs_t dev_addrs = uhd::device::find(hint);
+</pre>
+</div>
+<div class="section" id="device-properties">
+<h2>Device properties</h2>
+<p>Properties of devices attached to your system can be probed with the <strong>uhd_usrp_probe</strong> program.
+This program constructs an instance of the device and prints out its properties,
+such as detected daughterboards, frequency range, gain ranges, etc...</p>
+<p><strong>Usage:</strong></p>
+<pre class="literal-block">
+uhd_usrp_probe --args &lt;device-specific-address-args&gt;
+</pre>
+</div>
+</div>
+<div class="section" id="naming-a-usrp">
+<h1>Naming a USRP</h1>
+<p>For convenience purposes, users may assign a custom name to their USRPs.
+The USRP can then be identified via name, rather than a difficult to remember serial or address.</p>
+<p>A name has the following properties:</p>
+<ul class="simple">
+<li>is composed of ASCII characters</li>
+<li>is 0-20 characters</li>
+<li>is not required to be unique</li>
+</ul>
+<div class="section" id="set-a-custom-name">
+<h2>Set a custom name</h2>
+<p>Run the following commands:</p>
+<pre class="literal-block">
+cd &lt;install-path&gt;/share/uhd/utils
+./usrp_burn_mb_eeprom --args=&lt;optional device args&gt; --key=name --val=lab1_xcvr
+</pre>
+</div>
+<div class="section" id="discovery-via-name">
+<h2>Discovery via name</h2>
+<p>The keyword <strong>name</strong> can be used to narrow the scope of the search.
+Example with the find devices utility:</p>
+<pre class="literal-block">
+uhd_find_devices --args=&quot;name=lab1_xcvr&quot;
+
+-- OR --
+
+uhd_find_devices --args=&quot;type=usrp1, name=lab1_xcvr&quot;
+</pre>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+Generated on: 2015-05-18 08:53 UTC.
+
+</div>
+</body>
+</html>

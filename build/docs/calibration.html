@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>UHD - Calibration Application Notes</title>
+<style type="text/css">
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11pt;
+color:black;
+background-color:white;
+width:90%;
+margin:0 auto 0 auto;
+}
+
+div.document div.contents{
+border:1px solid #333333;
+padding:10px 30px 10px 10px;
+margin-left:50px;
+color:inherit;
+background-color:#FCFCFC;
+display:inline-block;
+}
+
+div.document p.topic-title{
+font-weight:bold;
+}
+
+div.document a:link, div.document a:visited{
+color:#236B8E;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document a:hover{
+color:#4985D6;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document h1.title{
+font-size:150%;
+border-left:1px solid #333333;
+border-bottom:1px solid #333333;
+text-align:left;
+padding:10px 0px 10px 10px;
+margin:10px 5px 20px 5px;
+color:#333333;
+background-color:inherit;
+}
+
+div.document h2.subtitle, div.section h1{
+margin-top:50px;
+border-bottom:1px solid #333333;
+font-size:140%;
+text-align:center;
+padding:20px 0px 10px 0px;
+color:#333333;
+background-color:inherit;
+}
+
+div.section h2{
+font-size:110%;
+text-align:left;
+padding:15px 0px 5px 0px;
+text-decoration:underline;
+color:#333333;
+background-color:inherit;
+}
+
+div.document pre.literal-block{
+border:1px inset #333333;
+padding:5px;
+margin:10px 5px 10px 5px;
+color:inherit;
+background-color:#FCFCFC;
+font-size:90%;
+}
+
+div.document table{
+padding:5px;
+font-size:95%;
+}
+
+div.document th{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#ECECEC;
+}
+
+div.document tr{
+}
+
+div.document td{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#FCFCFC;
+}
+
+div.footer{
+margin:50px auto 30px auto;
+text-align:center;
+font-size:85%;
+}
+
+</style>
+</head>
+<body>
+<div class="document" id="uhd-calibration-application-notes">
+<h1 class="title">UHD - Calibration Application Notes</h1>
+
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#self-calibration" id="id1">Self-calibration</a><ul>
+<li><a class="reference internal" href="#calibration-utilities" id="id2">Calibration Utilities</a></li>
+<li><a class="reference internal" href="#calibration-data" id="id3">Calibration Data</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="self-calibration">
+<h1>Self-calibration</h1>
+<p>UHD comes with several self-calibration utilities for minimizing IQ imbalance and DC offset.
+These utilities perform calibration sweeps using transmit leakage into the receive path
+(special equipment is not required).
+The results from a calibration are written to a CSV file in the user's home directory.
+UHD will automatically apply corrections at runtime when the user re-tunes the daughterboard LO.
+Calibration results are specific to an individual RF board.</p>
+<p><strong>Note:</strong>
+When a calibration table is present,
+and the user wishes to override the calibration settings through the API:
+the user should re-apply the desired setting every time the LO is re-tuned.</p>
+<p>UHD comes with the following calibration utilities:</p>
+<blockquote>
+<ul class="simple">
+<li><strong>uhd_cal_rx_iq_balance:</strong> - mimimizes RX IQ imbalance vs. LO frequency</li>
+<li><strong>uhd_cal_tx_dc_offset:</strong> - mimimizes TX DC offset vs. LO frequency</li>
+<li><strong>uhd_cal_tx_iq_balance:</strong> - mimimizes TX IQ imbalance vs. LO frequency</li>
+</ul>
+</blockquote>
+<p>The following RF frontends are supported by the self-calibration utilities:</p>
+<blockquote>
+<ul class="simple">
+<li>WBX transceiver board</li>
+<li>SBX transceiver board</li>
+<li>RFX transceiver board</li>
+</ul>
+</blockquote>
+<div class="section" id="calibration-utilities">
+<h2>Calibration Utilities</h2>
+<p>UHD installs the calibration utilities into <strong>&lt;install-path&gt;/bin</strong>.
+<strong>Disconnect</strong> any external hardware from the RF antenna ports,
+and run the following from the command line.
+Each utility will take several minutes to complete.</p>
+<pre class="literal-block">
+uhd_cal_rx_iq_balance --verbose --args=&lt;optional device args&gt;
+uhd_cal_tx_iq_balance --verbose --args=&lt;optional device args&gt;
+uhd_cal_tx_dc_offset --verbose --args=&lt;optional device args&gt;
+</pre>
+<p>See the output given by --help for more advanced options, such as:
+manually choosing the frequency range and step size for the sweeps.</p>
+<p><strong>Note:</strong>
+Your daughterboard needs a serial number to run a calibration utility. Some older daughterboards
+may not have a serial number. If this is the case, run the following command to burn a serial number
+into the daughterboard's EEPROM:</p>
+<pre class="literal-block">
+&lt;install dir&gt;/share/uhd/utils/usrp_burn_db_eeprom --ser=&lt;desired serial&gt; --args=&lt;optional device args&gt;
+</pre>
+</div>
+<div class="section" id="calibration-data">
+<h2>Calibration Data</h2>
+<p>Calibration files are stored in the user's home/application directory.
+They can easily be moved from machine to another by copying the &quot;cal&quot; directory.
+Re-running a calibration utility will replace the existing calibration file.
+The old calibration file will be renamed so it may be recovered by the user.</p>
+<blockquote>
+<ul class="simple">
+<li><strong>Linux:</strong> ${HOME}/.uhd/cal/</li>
+<li><strong>Windows:</strong> %APPDATA%\.uhd\cal\</li>
+</ul>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+Generated on: 2015-05-18 08:53 UTC.
+
+</div>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>UHD - Build Guide</title>
+<style type="text/css">
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11pt;
+color:black;
+background-color:white;
+width:90%;
+margin:0 auto 0 auto;
+}
+
+div.document div.contents{
+border:1px solid #333333;
+padding:10px 30px 10px 10px;
+margin-left:50px;
+color:inherit;
+background-color:#FCFCFC;
+display:inline-block;
+}
+
+div.document p.topic-title{
+font-weight:bold;
+}
+
+div.document a:link, div.document a:visited{
+color:#236B8E;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document a:hover{
+color:#4985D6;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document h1.title{
+font-size:150%;
+border-left:1px solid #333333;
+border-bottom:1px solid #333333;
+text-align:left;
+padding:10px 0px 10px 10px;
+margin:10px 5px 20px 5px;
+color:#333333;
+background-color:inherit;
+}
+
+div.document h2.subtitle, div.section h1{
+margin-top:50px;
+border-bottom:1px solid #333333;
+font-size:140%;
+text-align:center;
+padding:20px 0px 10px 0px;
+color:#333333;
+background-color:inherit;
+}
+
+div.section h2{
+font-size:110%;
+text-align:left;
+padding:15px 0px 5px 0px;
+text-decoration:underline;
+color:#333333;
+background-color:inherit;
+}
+
+div.document pre.literal-block{
+border:1px inset #333333;
+padding:5px;
+margin:10px 5px 10px 5px;
+color:inherit;
+background-color:#FCFCFC;
+font-size:90%;
+}
+
+div.document table{
+padding:5px;
+font-size:95%;
+}
+
+div.document th{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#ECECEC;
+}
+
+div.document tr{
+}
+
+div.document td{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#FCFCFC;
+}
+
+div.footer{
+margin:50px auto 30px auto;
+text-align:center;
+font-size:85%;
+}
+
+</style>
+</head>
+<body>
+<div class="document" id="uhd-build-guide">
+<h1 class="title">UHD - Build Guide</h1>
+
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#build-dependencies" id="id1">Build Dependencies</a><ul>
+<li><a class="reference internal" href="#git" id="id2">Git</a></li>
+<li><a class="reference internal" href="#c-compiler" id="id3">C++ Compiler</a></li>
+<li><a class="reference internal" href="#cmake" id="id4">CMake</a></li>
+<li><a class="reference internal" href="#boost" id="id5">Boost</a></li>
+<li><a class="reference internal" href="#libusb" id="id6">LibUSB</a></li>
+<li><a class="reference internal" href="#python" id="id7">Python</a></li>
+<li><a class="reference internal" href="#cheetah" id="id8">Cheetah</a></li>
+<li><a class="reference internal" href="#doxygen" id="id9">Doxygen</a></li>
+<li><a class="reference internal" href="#docutils" id="id10">Docutils</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#build-instructions-unix" id="id11">Build Instructions (Unix)</a><ul>
+<li><a class="reference internal" href="#generate-makefiles-with-cmake" id="id12">Generate Makefiles with CMake</a></li>
+<li><a class="reference internal" href="#build-and-install" id="id13">Build and install</a></li>
+<li><a class="reference internal" href="#setup-the-library-path-linux" id="id14">Setup the library path (Linux)</a></li>
+<li><a class="reference internal" href="#setup-the-library-path-mac-os-x" id="id15">Setup the library path (Mac OS X)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#build-instructions-windows" id="id16">Build Instructions (Windows)</a><ul>
+<li><a class="reference internal" href="#generate-the-project-with-cmake" id="id17">Generate the project with CMake</a></li>
+<li><a class="reference internal" href="#libusb-cmake-notes" id="id18">LibUSB CMake notes</a></li>
+<li><a class="reference internal" href="#build-the-project-in-msvc" id="id19">Build the project in MSVC</a></li>
+<li><a class="reference internal" href="#build-the-project-in-msvc-command-line" id="id20">Build the project in MSVC (command line)</a></li>
+<li><a class="reference internal" href="#setup-the-path-environment-variable" id="id21">Setup the PATH environment variable</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#post-install-tasks" id="id22">Post-Install Tasks</a></li>
+</ul>
+</div>
+<div class="section" id="build-dependencies">
+<h1>Build Dependencies</h1>
+<p><strong>Linux Notes:</strong>
+This is dependent on the distribution you are using, but most, if not all, of
+the dependencies should be available in the package repositories for your
+package manager.</p>
+<p><strong>Mac OS X Notes:</strong>
+Install the &quot;Xcode Developer Tools&quot; to get the build tools (GCC and Make).
+Use MacPorts to get the Boost and Cheetah dependencies.
+Other dependencies can be downloaded as DMG installers from the web.</p>
+<p><strong>Windows Notes:</strong>
+The dependencies can be acquired through installable EXE files.
+Usually, the Windows installer can be found on the project's website.
+Some projects do not host Windows installers, and if this is the case,
+follow the auxiliary download URL for the Windows installer (below).</p>
+<div class="section" id="git">
+<h2>Git</h2>
+<p>Required to check out the repository.
+On Windows, install Cygwin with Git support to checkout the repository
+or install msysGit from <a class="reference external" href="http://code.google.com/p/msysgit/downloads/list">http://code.google.com/p/msysgit/downloads/list</a>.</p>
+</div>
+<div class="section" id="c-compiler">
+<h2>C++ Compiler</h2>
+<p>The following compilers are known to work:</p>
+<ul class="simple">
+<li>GCC</li>
+<li>Clang</li>
+<li>MSVC</li>
+</ul>
+</div>
+<div class="section" id="cmake">
+<h2>CMake</h2>
+<ul class="simple">
+<li><strong>Purpose:</strong> generates project build files</li>
+<li><strong>Minimum Version:</strong> 2.6</li>
+<li><strong>Usage:</strong> build time (required)</li>
+<li><strong>Download URL:</strong> <a class="reference external" href="http://www.cmake.org/cmake/resources/software.html">http://www.cmake.org/cmake/resources/software.html</a></li>
+</ul>
+</div>
+<div class="section" id="boost">
+<h2>Boost</h2>
+<ul class="simple">
+<li><strong>Purpose:</strong> C++ library</li>
+<li><strong>Minimum Version:</strong> 1.36 (Linux), 1.40 (Windows)</li>
+<li><strong>Usage:</strong> build time + runtime (required)</li>
+<li><strong>Download URL:</strong> <a class="reference external" href="http://www.boost.org/users/download/">http://www.boost.org/users/download/</a></li>
+<li><strong>Download URL (Windows installer):</strong> <a class="reference external" href="http://www.boostpro.com/download">http://www.boostpro.com/download</a></li>
+</ul>
+</div>
+<div class="section" id="libusb">
+<h2>LibUSB</h2>
+<ul class="simple">
+<li><strong>Purpose:</strong> USB-based hardware support</li>
+<li><strong>Minimum Version:</strong> 1.0</li>
+<li><strong>Usage:</strong> build time + runtime (optional)</li>
+<li><strong>Download URL:</strong> <a class="reference external" href="http://sourceforge.net/projects/libusb/files/libusb-1.0/">http://sourceforge.net/projects/libusb/files/libusb-1.0/</a></li>
+<li><strong>Download URL (Windows binaries):</strong> <a class="reference external" href="http://www.libusb.org/wiki/windows_backend#LatestBinarySnapshots">http://www.libusb.org/wiki/windows_backend#LatestBinarySnapshots</a></li>
+</ul>
+</div>
+<div class="section" id="python">
+<h2>Python</h2>
+<ul class="simple">
+<li><strong>Purpose:</strong> used by Cheetah and utility scripts</li>
+<li><strong>Minimum Version:</strong> 2.6</li>
+<li><strong>Usage:</strong> build time + runtime utility scripts (required)</li>
+<li><strong>Download URL:</strong> <a class="reference external" href="http://www.python.org/download/">http://www.python.org/download/</a></li>
+</ul>
+</div>
+<div class="section" id="cheetah">
+<h2>Cheetah</h2>
+<ul class="simple">
+<li><strong>Purpose:</strong> source code generation</li>
+<li><strong>Minimum Version:</strong> 2.0</li>
+<li><strong>Usage:</strong> build time (required)</li>
+<li><strong>Download URL:</strong> <a class="reference external" href="http://www.cheetahtemplate.org/download.html">http://www.cheetahtemplate.org/download.html</a></li>
+<li><strong>Download URL (Windows installer):</strong> <a class="reference external" href="http://feisley.com/python/cheetah/">http://feisley.com/python/cheetah/</a></li>
+</ul>
+<p><strong>Alternative method:</strong>
+Install <strong>setuptools</strong>, and use the <strong>easy_install</strong> command to install Cheetah.
+<a class="reference external" href="http://pypi.python.org/pypi/setuptools">http://pypi.python.org/pypi/setuptools</a></p>
+</div>
+<div class="section" id="doxygen">
+<h2>Doxygen</h2>
+<ul class="simple">
+<li><strong>Purpose:</strong> generates HTML API documentation</li>
+<li><strong>Usage:</strong> build time (optional)</li>
+<li><strong>Download URL:</strong> <a class="reference external" href="http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc">http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc</a></li>
+</ul>
+</div>
+<div class="section" id="docutils">
+<h2>Docutils</h2>
+<ul class="simple">
+<li><strong>Purpose:</strong> generates HTML user manual</li>
+<li><strong>Usage:</strong> build time (optional)</li>
+<li><strong>Download URL:</strong> <a class="reference external" href="http://docutils.sourceforge.net/">http://docutils.sourceforge.net/</a></li>
+</ul>
+<p><strong>Alternate method:</strong>
+Install <strong>setuptools</strong>, and use the <strong>easy_install</strong> command to install Docutils.
+<a class="reference external" href="http://pypi.python.org/pypi/setuptools">http://pypi.python.org/pypi/setuptools</a></p>
+</div>
+</div>
+<div class="section" id="build-instructions-unix">
+<h1>Build Instructions (Unix)</h1>
+<div class="section" id="generate-makefiles-with-cmake">
+<h2>Generate Makefiles with CMake</h2>
+<pre class="literal-block">
+cd &lt;uhd-repo-path&gt;/host
+mkdir build
+cd build
+cmake ../
+</pre>
+<p>Additionally, configuration variables can be passed into CMake via the command line.
+The following common-use configuration variables are listed below:</p>
+<ul class="simple">
+<li>For a custom install prefix: <strong>-DCMAKE_INSTALL_PREFIX=&lt;install-path&gt;</strong></li>
+<li>To install libs into lib64: <strong>cmake -DLIB_SUFFIX=64</strong></li>
+</ul>
+<p>Example usage:</p>
+<pre class="literal-block">
+cmake -DCMAKE_INSTALL_PREFIX=/opt/uhd ../
+</pre>
+</div>
+<div class="section" id="build-and-install">
+<h2>Build and install</h2>
+<pre class="literal-block">
+make
+make test
+sudo make install
+</pre>
+</div>
+<div class="section" id="setup-the-library-path-linux">
+<h2>Setup the library path (Linux)</h2>
+<p>Make sure that <strong>libuhd.so</strong> is in your <strong>LD_LIBRARY_PATH</strong>,
+or add it to <strong>/etc/ld.so.conf</strong> and make sure to run:</p>
+<pre class="literal-block">
+sudo ldconfig
+</pre>
+</div>
+<div class="section" id="setup-the-library-path-mac-os-x">
+<h2>Setup the library path (Mac OS X)</h2>
+<p>Make sure that <strong>libuhd.dylib</strong> is in your <strong>DYLD_LIBRARY_PATH</strong>.</p>
+</div>
+</div>
+<div class="section" id="build-instructions-windows">
+<h1>Build Instructions (Windows)</h1>
+<div class="section" id="generate-the-project-with-cmake">
+<h2>Generate the project with CMake</h2>
+<ul class="simple">
+<li>Open the CMake GUI.</li>
+<li>Set the path to the source code: <strong>&lt;uhd-repo-path&gt;/host</strong>.</li>
+<li>Set the path to the build directory: <strong>&lt;uhd-repo-path&gt;/host/build</strong>.</li>
+<li>Make sure that the paths do not contain spaces.</li>
+<li>Click &quot;Configure&quot; and select &quot;Microsoft Visual Studio 10&quot;.</li>
+<li>Set the build variables and click &quot;Configure&quot; again.</li>
+<li>Click &quot;Generate&quot;, and a project file will be created in the build directory.</li>
+</ul>
+</div>
+<div class="section" id="libusb-cmake-notes">
+<h2>LibUSB CMake notes</h2>
+<p>On Windows, CMake does not have the advantage of <strong>pkg-config</strong>,
+so we must manually tell CMake how to locate the LibUSB header and lib.</p>
+<ul class="simple">
+<li>From the CMake GUI, select &quot;Advanced View&quot;.</li>
+<li>Set <strong>LIBUSB_INCLUDE_DIRS</strong> to the directory with <strong>libusb.h</strong>.</li>
+<li>Set <strong>LIBUSB_LIBRARIES</strong> to the full path for <strong>libusb-1.0.lib</strong>.<ul>
+<li>Recommend the static <strong>libusb-1.0.lib</strong> to simplify runtime dependencies.</li>
+</ul>
+</li>
+<li>Check the box to enable USB support, click &quot;Configure&quot; and &quot;Generate&quot;.</li>
+</ul>
+</div>
+<div class="section" id="build-the-project-in-msvc">
+<h2>Build the project in MSVC</h2>
+<ul class="simple">
+<li>Open the generated project file in MSVC.</li>
+<li>Change the build type from &quot;Debug&quot; to &quot;Release&quot;.</li>
+<li>Select the &quot;Build All&quot; target, right-click, and choose &quot;Build&quot;.</li>
+<li>Select the install target, right-click, and choose &quot;Build&quot;.</li>
+</ul>
+<p><strong>Note:</strong> You may not have permission to build the install target.
+You need to be an administrator or to run MSVC as administrator.</p>
+</div>
+<div class="section" id="build-the-project-in-msvc-command-line">
+<h2>Build the project in MSVC (command line)</h2>
+<p>Open the Visual Studio Command Prompt Shorcut:</p>
+<pre class="literal-block">
+cd &lt;uhd-repo-path&gt;\host\build
+DevEnv uhd.sln /build Release /project ALL_BUILD
+DevEnv uhd.sln /build Release /project INSTALL
+</pre>
+</div>
+<div class="section" id="setup-the-path-environment-variable">
+<h2>Setup the PATH environment variable</h2>
+<ul class="simple">
+<li>Add the UHD bin path to <strong>%PATH%</strong> (usually <strong>C:\Program Files\UHD\bin</strong>)</li>
+</ul>
+<p><strong>Note:</strong>
+The default interface for editing environment variable paths in Windows is very poor.
+We recommend using &quot;Rapid Environment Editor&quot; (<a class="reference external" href="http://www.rapidee.com">http://www.rapidee.com</a>) over the default editor.</p>
+</div>
+</div>
+<div class="section" id="post-install-tasks">
+<h1>Post-Install Tasks</h1>
+<p>For USB-based devices,
+see the <a class="reference external" href="./transport.html#usb-transport-libusb">USB Transport Application Notes</a>
+for platform-specific post-installation tasks.</p>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+Generated on: 2015-05-18 08:53 UTC.
+
+</div>
+</body>
+</html>

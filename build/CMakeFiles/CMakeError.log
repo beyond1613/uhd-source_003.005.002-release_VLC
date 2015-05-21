@@ -1,0 +1,145 @@
+Performing C++ SOURCE FILE Test HAVE_MACH_ABSOLUTE_TIME failed with the following output:
+Change Dir: /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/src.cxx.o
+/usr/bin/c++    -DHAVE_MACH_ABSOLUTE_TIME   -o CMakeFiles/cmTryCompileExec.dir/src.cxx.o -c /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/src.cxx
+/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/src.cxx:2:32: fatal error: mach/mach_time.h: No such file or directory
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/src.cxx.o] Error 1
+make[1]: Leaving directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+Source file was:
+
+    #include <mach/mach_time.h>
+    int main(){
+        mach_timebase_info_data_t info;
+        mach_timebase_info(&info);
+        mach_absolute_time();
+        return 0;
+    }
+    
+Performing C++ SOURCE FILE Test HAVE_QUERY_PERFORMANCE_COUNTER failed with the following output:
+Change Dir: /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/src.cxx.o
+/usr/bin/c++    -DHAVE_QUERY_PERFORMANCE_COUNTER   -o CMakeFiles/cmTryCompileExec.dir/src.cxx.o -c /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/src.cxx
+/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/src.cxx:2:25: fatal error: Windows.h: No such file or directory
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/src.cxx.o] Error 1
+make[1]: Leaving directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+Source file was:
+
+    #include <Windows.h>
+    int main(){
+        LARGE_INTEGER value;
+        QueryPerformanceCounter(&value);
+        QueryPerformanceFrequency(&value);
+        return 0;
+    }
+    
+Determining if the include file arm_neon.h exists failed with the following output:
+Change Dir: /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -mfloat-abi=softfp -mfpu=neon   -o CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.cxx.o -c /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+cc1plus: error: unrecognized command line option ‘-mfloat-abi=softfp’
+cc1plus: error: unrecognized command line option ‘-mfpu=neon’
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+
+Determining if the include file winsock2.h exists failed with the following output:
+Change Dir: /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.cxx.o -c /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:22: fatal error: winsock2.h: No such file or directory
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+
+Determining if the include file atlbase.h exists failed with the following output:
+Change Dir: /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.cxx.o -c /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:21: fatal error: atlbase.h: No such file or directory
+compilation terminated.
+make[1]: Leaving directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.cxx.o] Error 1
+make: *** [cmTryCompileExec/fast] Error 2
+
+
+Performing C++ SOURCE FILE Test HAVE_WIN_SETTHREADPRIORITY failed with the following output:
+Change Dir: /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/src.cxx.o
+/usr/bin/c++    -DHAVE_WIN_SETTHREADPRIORITY   -o CMakeFiles/cmTryCompileExec.dir/src.cxx.o -c /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/src.cxx
+/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/src.cxx:2:25: fatal error: windows.h: No such file or directory
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/src.cxx.o] Error 1
+make[1]: Leaving directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+Source file was:
+
+    #include <windows.h>
+    int main(){
+        SetThreadPriority(GetCurrentThread(), 0);
+        SetPriorityClass(GetCurrentProcess(), 0);
+        return 0;
+    }
+    
+Performing C++ SOURCE FILE Test HAVE_LOAD_LIBRARY failed with the following output:
+Change Dir: /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/src.cxx.o
+/usr/bin/c++    -DHAVE_LOAD_LIBRARY   -o CMakeFiles/cmTryCompileExec.dir/src.cxx.o -c /home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/src.cxx
+/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp/src.cxx:2:25: fatal error: windows.h: No such file or directory
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/src.cxx.o] Error 1
+make[1]: Leaving directory `/home/mvnl-fancy/uhd-source_003.005.002-release/build/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+Source file was:
+
+    #include <windows.h>
+    int main(){
+        LoadLibrary(0);
+        return 0;
+    }
+    

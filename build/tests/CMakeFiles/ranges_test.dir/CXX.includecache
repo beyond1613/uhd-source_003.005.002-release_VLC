@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/uhd/config.hpp
+boost/config.hpp
+-
+ciso646
+-
+cstddef
+-
+
+../include/uhd/types/ranges.hpp
+uhd/config.hpp
+-
+string
+-
+vector
+-
+
+/home/mvnl-fancy/uhd-source_003.005.002-release/tests/ranges_test.cpp
+boost/test/unit_test.hpp
+-
+uhd/types/ranges.hpp
+-
+iostream
+-
+

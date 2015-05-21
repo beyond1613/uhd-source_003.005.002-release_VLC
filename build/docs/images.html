@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>UHD - Firmware and FPGA Image Application Notes</title>
+<style type="text/css">
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11pt;
+color:black;
+background-color:white;
+width:90%;
+margin:0 auto 0 auto;
+}
+
+div.document div.contents{
+border:1px solid #333333;
+padding:10px 30px 10px 10px;
+margin-left:50px;
+color:inherit;
+background-color:#FCFCFC;
+display:inline-block;
+}
+
+div.document p.topic-title{
+font-weight:bold;
+}
+
+div.document a:link, div.document a:visited{
+color:#236B8E;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document a:hover{
+color:#4985D6;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document h1.title{
+font-size:150%;
+border-left:1px solid #333333;
+border-bottom:1px solid #333333;
+text-align:left;
+padding:10px 0px 10px 10px;
+margin:10px 5px 20px 5px;
+color:#333333;
+background-color:inherit;
+}
+
+div.document h2.subtitle, div.section h1{
+margin-top:50px;
+border-bottom:1px solid #333333;
+font-size:140%;
+text-align:center;
+padding:20px 0px 10px 0px;
+color:#333333;
+background-color:inherit;
+}
+
+div.section h2{
+font-size:110%;
+text-align:left;
+padding:15px 0px 5px 0px;
+text-decoration:underline;
+color:#333333;
+background-color:inherit;
+}
+
+div.document pre.literal-block{
+border:1px inset #333333;
+padding:5px;
+margin:10px 5px 10px 5px;
+color:inherit;
+background-color:#FCFCFC;
+font-size:90%;
+}
+
+div.document table{
+padding:5px;
+font-size:95%;
+}
+
+div.document th{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#ECECEC;
+}
+
+div.document tr{
+}
+
+div.document td{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#FCFCFC;
+}
+
+div.footer{
+margin:50px auto 30px auto;
+text-align:center;
+font-size:85%;
+}
+
+</style>
+</head>
+<body>
+<div class="document" id="uhd-firmware-and-fpga-image-application-notes">
+<h1 class="title">UHD - Firmware and FPGA Image Application Notes</h1>
+
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#images-overview" id="id1">Images Overview</a></li>
+<li><a class="reference internal" href="#pre-built-images" id="id2">Pre-built Images</a><ul>
+<li><a class="reference internal" href="#uhd-images-downloader" id="id3">UHD Images Downloader</a></li>
+<li><a class="reference internal" href="#platform-installers" id="id4">Platform installers</a></li>
+<li><a class="reference internal" href="#archive-install" id="id5">Archive install</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-images" id="id6">Building Images</a><ul>
+<li><a class="reference internal" href="#xilinx-fpga-builds" id="id7">Xilinx FPGA builds</a></li>
+<li><a class="reference internal" href="#zpu-firmware-builds" id="id8">ZPU firmware builds</a></li>
+<li><a class="reference internal" href="#altera-fpga-builds" id="id9">Altera FPGA builds</a></li>
+<li><a class="reference internal" href="#fx2-firmware-builds" id="id10">FX2 firmware builds</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="images-overview">
+<h1>Images Overview</h1>
+<p>Every USRP device must be loaded with special firmware and FPGA images.
+The methods of loading images into the device vary among devices:</p>
+<ul class="simple">
+<li><strong>USRP1:</strong> The host code will automatically load the firmware and FPGA at runtime.</li>
+<li><strong>USRP2:</strong> The user must manually write the images onto the USRP2 SD card.</li>
+<li><strong>USRP-N Series:</strong> The user must manually transfer the images over ethernet.</li>
+<li><strong>USRP-E Series:</strong> The host code will automatically load the FPGA at runtime.</li>
+<li><strong>USRP-B Series:</strong> The host code will automatically load the FPGA at runtime.</li>
+</ul>
+</div>
+<div class="section" id="pre-built-images">
+<h1>Pre-built Images</h1>
+<p>Pre-built images are available for download.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://files.ettus.com/binaries/master_images/">Master Branch images</a></li>
+<li><a class="reference external" href="http://files.ettus.com/binaries/maint_images/">Maint Branch images</a></li>
+</ul>
+<p>See the UHD wiki for the download link.</p>
+<p>The pre-built images come in two forms:</p>
+<ul class="simple">
+<li>bundled with UHD in a platform-specific installer</li>
+<li>stand-alone platform-independent archive files</li>
+</ul>
+<div class="section" id="uhd-images-downloader">
+<h2>UHD Images Downloader</h2>
+<p>The UHD Images Downloader is a new feature in UHD 003.005.000. This script downloads UHD images that
+are guaranteed to be compatible with the host code and places them in the default images
+directory.</p>
+<p>By default, it can be found at: <strong>&lt;install-path&gt;/share/uhd/utils/uhd_images_downloader.py</strong></p>
+<p>By default, it installs images to: <strong>&lt;install-path&gt;/share/uhd/images</strong></p>
+</div>
+<div class="section" id="platform-installers">
+<h2>Platform installers</h2>
+<p>The UNIX-based installers will install the images into <strong>/usr/share/uhd/images</strong>.</p>
+<p>The Windows installers will install the images into <strong>C:/Program Files/UHD/share/uhd/images</strong>.</p>
+</div>
+<div class="section" id="archive-install">
+<h2>Archive install</h2>
+<p>When installing images from an archive, there are two options:</p>
+<p><strong>Option 1:</strong></p>
+<p>Unpack the archive into the UHD installation prefix.
+UHD will always search <strong>&lt;install-path&gt;/share/uhd/images</strong> for image files.
+Where <strong>&lt;install-path&gt;</strong> was set by the <strong>CMAKE_INSTALL_PREFIX</strong> at configure-time.</p>
+<p><strong>Option 2:</strong></p>
+<p>Unpack the archive anywhere and set the <strong>UHD_IMAGES_PATH</strong> environment variable.
+<strong>UHD_IMAGES_PATH</strong> may contain a list of directories to search for image files.</p>
+</div>
+</div>
+<div class="section" id="building-images">
+<h1>Building Images</h1>
+<p>The UHD source repository comes with the source code necessary to build
+both firmware and FPGA images for all supported devices.</p>
+<p>The build commands for a particular image can be found in <strong>&lt;uhd-repo-path&gt;/images/Makefile</strong>.</p>
+<div class="section" id="xilinx-fpga-builds">
+<h2>Xilinx FPGA builds</h2>
+<p>Xilinx ISE 12.x and up is required to build the Xilinx FPGA images.
+The build requires that you have a UNIX-like environment with <strong>Make</strong>.
+Make sure that <strong>xtclsh</strong> from the Xilinx ISE bin directory is in your <strong>$PATH</strong>.</p>
+<p>See <strong>&lt;uhd-repo-path&gt;/fpga/usrp2/top/</strong>.</p>
+</div>
+<div class="section" id="zpu-firmware-builds">
+<h2>ZPU firmware builds</h2>
+<p>The ZPU GCC compiler is required to build the ZPU firmware images.
+The build requires that you have a UNIX-like environment with <strong>CMake</strong> and <strong>Make</strong>.
+Make sure that <strong>zpu-elf-gcc</strong> is in your <strong>$PATH</strong>.</p>
+<p>See <strong>&lt;uhd-repo-path&gt;/firmware/zpu</strong>.</p>
+</div>
+<div class="section" id="altera-fpga-builds">
+<h2>Altera FPGA builds</h2>
+<p>Quartus is required to build the Altera FPGA images.
+Pre-built images can also be found in <strong>&lt;uhd-repo-path&gt;/fpga/usrp1/rbf</strong>.</p>
+<p>See <strong>&lt;uhd-repo-path&gt;/fpga/usrp1/toplevel/*</strong>.</p>
+</div>
+<div class="section" id="fx2-firmware-builds">
+<h2>FX2 firmware builds</h2>
+<p>The SDCC compiler is required to build the FX2 firmware images.
+The build requires that you have a UNIX-like environment with <strong>CMake</strong> and <strong>Make</strong>.</p>
+<p>See <strong>&lt;uhd-repo-path&gt;/firmware/fx2</strong>.</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+Generated on: 2015-05-18 08:53 UTC.
+
+</div>
+</body>
+</html>

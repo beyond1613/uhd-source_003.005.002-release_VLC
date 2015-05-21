@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>UHD - Daughterboard Application Notes</title>
+<style type="text/css">
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11pt;
+color:black;
+background-color:white;
+width:90%;
+margin:0 auto 0 auto;
+}
+
+div.document div.contents{
+border:1px solid #333333;
+padding:10px 30px 10px 10px;
+margin-left:50px;
+color:inherit;
+background-color:#FCFCFC;
+display:inline-block;
+}
+
+div.document p.topic-title{
+font-weight:bold;
+}
+
+div.document a:link, div.document a:visited{
+color:#236B8E;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document a:hover{
+color:#4985D6;
+background-color:inherit;
+text-decoration:none;
+}
+
+div.document h1.title{
+font-size:150%;
+border-left:1px solid #333333;
+border-bottom:1px solid #333333;
+text-align:left;
+padding:10px 0px 10px 10px;
+margin:10px 5px 20px 5px;
+color:#333333;
+background-color:inherit;
+}
+
+div.document h2.subtitle, div.section h1{
+margin-top:50px;
+border-bottom:1px solid #333333;
+font-size:140%;
+text-align:center;
+padding:20px 0px 10px 0px;
+color:#333333;
+background-color:inherit;
+}
+
+div.section h2{
+font-size:110%;
+text-align:left;
+padding:15px 0px 5px 0px;
+text-decoration:underline;
+color:#333333;
+background-color:inherit;
+}
+
+div.document pre.literal-block{
+border:1px inset #333333;
+padding:5px;
+margin:10px 5px 10px 5px;
+color:inherit;
+background-color:#FCFCFC;
+font-size:90%;
+}
+
+div.document table{
+padding:5px;
+font-size:95%;
+}
+
+div.document th{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#ECECEC;
+}
+
+div.document tr{
+}
+
+div.document td{
+padding:3px 7px 3px 7px;
+border:1px solid #333333;
+text-align:center;
+color:inherit;
+background-color:#FCFCFC;
+}
+
+div.footer{
+margin:50px auto 30px auto;
+text-align:center;
+font-size:85%;
+}
+
+</style>
+</head>
+<body>
+<div class="document" id="uhd-daughterboard-application-notes">
+<h1 class="title">UHD - Daughterboard Application Notes</h1>
+
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#daughterboard-properties" id="id1">Daughterboard Properties</a><ul>
+<li><a class="reference internal" href="#basic-rx-and-lfrx" id="id2">Basic RX and LFRX</a></li>
+<li><a class="reference internal" href="#basic-tx-and-lftx" id="id3">Basic TX and LFTX</a></li>
+<li><a class="reference internal" href="#dbsrx" id="id4">DBSRX</a></li>
+<li><a class="reference internal" href="#dbsrx2" id="id5">DBSRX2</a></li>
+<li><a class="reference internal" href="#rfx-series" id="id6">RFX Series</a></li>
+<li><a class="reference internal" href="#xcvr-2450" id="id7">XCVR 2450</a></li>
+<li><a class="reference internal" href="#wbx-series" id="id8">WBX Series</a></li>
+<li><a class="reference internal" href="#sbx-series" id="id9">SBX Series</a></li>
+<li><a class="reference internal" href="#tvrx" id="id10">TVRX</a></li>
+<li><a class="reference internal" href="#tvrx2" id="id11">TVRX2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#daughterboard-modifications" id="id12">Daughterboard Modifications</a><ul>
+<li><a class="reference internal" href="#dbsrx-mod" id="id13">DBSRX - Mod</a></li>
+<li><a class="reference internal" href="#rfx-mod" id="id14">RFX - Mod</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="daughterboard-properties">
+<h1>Daughterboard Properties</h1>
+<p>The following contains interesting notes about each daughterboard.
+Eventually, this page will be expanded to list out the full
+properties of each board as well.</p>
+<div class="section" id="basic-rx-and-lfrx">
+<h2>Basic RX and LFRX</h2>
+<p>The Basic RX and LFRX boards have 4 frontends:</p>
+<ul class="simple">
+<li><strong>Frontend A:</strong> real signal on antenna RXA</li>
+<li><strong>Frontend B:</strong> real signal on antenna RXB</li>
+<li><strong>Frontend AB:</strong> quadrature frontend using both antennas (IQ)</li>
+<li><strong>Frontend BA:</strong> quadrature frontend using both antennas (QI)</li>
+</ul>
+<p>The boards have no tunable elements or programmable gains.
+Through the magic of aliasing, you can down-convert signals
+greater than the Nyquist rate of the ADC.</p>
+<p>BasicRX Bandwidth (Hz):</p>
+<ul class="simple">
+<li><strong>For Real-Mode (A or B frontend)</strong>: 250M</li>
+<li><strong>For Complex (AB or BA frontend)</strong>: 500M</li>
+</ul>
+<p>LFRX Bandwidth (Hz):</p>
+<ul class="simple">
+<li><strong>For Real-Mode (A or B frontend)</strong>: 33M</li>
+<li><strong>For Complex (AB or BA frontend)</strong>: 66M</li>
+</ul>
+</div>
+<div class="section" id="basic-tx-and-lftx">
+<h2>Basic TX and LFTX</h2>
+<p>The Basic TX and LFTX boards have 4 frontends:</p>
+<ul class="simple">
+<li><strong>Frontend A:</strong> real signal on antenna TXA</li>
+<li><strong>Frontend B:</strong> real signal on antenna TXB</li>
+<li><strong>Frontend AB:</strong> quadrature frontend using both antennas (IQ)</li>
+<li><strong>Frontend BA:</strong> quadrature frontend using both antennas (QI)</li>
+</ul>
+<p>The boards have no tunable elements or programmable gains.
+Through the magic of aliasing, you can up-convert signals
+greater than the Nyquist rate of the DAC.</p>
+<p>BasicTX Bandwidth (Hz): 250M</p>
+<ul class="simple">
+<li><strong>For Real-Mode (A or B frontend</strong>): 250M</li>
+<li><strong>For Complex (AB or BA frontend)</strong>: 500M</li>
+</ul>
+<p>LFTX Bandwidth (Hz): 33M</p>
+<ul class="simple">
+<li><strong>For Real-Mode (A or B frontend)</strong>: 33M</li>
+<li><strong>For Complex (AB or BA frontend)</strong>: 66M</li>
+</ul>
+</div>
+<div class="section" id="dbsrx">
+<h2>DBSRX</h2>
+<p>The DBSRX board has 1 quadrature frontend.
+It defaults to direct conversion but can use a low IF through lo_offset in <strong>uhd::tune_request_t</strong>.</p>
+<p>Receive Antennas: <strong>J3</strong></p>
+<ul class="simple">
+<li><strong>Frontend 0:</strong> Complex baseband signal from antenna J3</li>
+</ul>
+<p>The board has no user selectable antenna setting.</p>
+<p>Receive Gains:</p>
+<ul class="simple">
+<li><strong>GC1</strong>, Range: 0-56dB</li>
+<li><strong>GC2</strong>, Range: 0-24dB</li>
+</ul>
+<p>Bandwidth (Hz): 8M-66M</p>
+<p>Sensors:</p>
+<ul class="simple">
+<li><strong>lo_locked</strong>: boolean for LO lock state</li>
+</ul>
+</div>
+<div class="section" id="dbsrx2">
+<h2>DBSRX2</h2>
+<p>The DBSRX2 board has 1 quadrature frontend.
+It defaults to direct conversion, but can use a low IF through lo_offset in <strong>uhd::tune_request_t</strong>.</p>
+<p>Receive Antennas: <strong>J3</strong></p>
+<ul class="simple">
+<li><strong>Frontend 0:</strong> Complex baseband signal from antenna J3</li>
+</ul>
+<p>The board has no user-selectable antenna setting.</p>
+<p>Receive Gains:</p>
+<ul class="simple">
+<li><strong>GC1</strong>, Range: 0-73dB</li>
+<li><strong>BBG</strong>, Range: 0-15dB</li>
+</ul>
+<p>Bandwidth (Hz): 8M-80M</p>
+<p>Sensors:</p>
+<ul class="simple">
+<li><strong>lo_locked</strong>: boolean for LO lock state</li>
+</ul>
+</div>
+<div class="section" id="rfx-series">
+<h2>RFX Series</h2>
+<p>The RFX Series boards have 2 quadrature frontends: Transmit and Receive.
+Transmit defaults to low IF, and Receive defaults to direct conversion.
+The IF can be adjusted through lo_offset in <strong>uhd::tune_request_t</strong>.</p>
+<p>The RFX Series boards have independent receive and transmit LO's and synthesizers
+allowing full-duplex operation on different transmit and receive frequencies.</p>
+<p>Transmit Antennas: <strong>TX/RX</strong></p>
+<p>Receive Antennas: <strong>TX/RX</strong> or <strong>RX2</strong></p>
+<ul class="simple">
+<li><strong>Frontend 0:</strong> Complex baseband signal for selected antenna</li>
+</ul>
+<p>The user may set the receive antenna to be TX/RX or RX2.
+However, when using an RFX board in full-duplex mode,
+the receive antenna will always be set to RX2, regardless of the settings.</p>
+<p>Receive Gains: <strong>PGA0</strong>, Range: 0-70dB (except RFX400 range is 0-45dB)</p>
+<p>Bandwidths (Hz):</p>
+<ul class="simple">
+<li><strong>RX</strong>: 40M</li>
+<li><strong>TX</strong>: 40M</li>
+</ul>
+<p>Sensors:</p>
+<ul class="simple">
+<li><strong>lo_locked</strong>: boolean for LO lock state</li>
+</ul>
+</div>
+<div class="section" id="xcvr-2450">
+<h2>XCVR 2450</h2>
+<p>The XCVR2450 has 2 quadrature frontends, one transmit, one receive.
+Transmit and Receive default to direct conversion but
+can be used in low IF mode through lo_offset in uhd::tune_request_t</p>
+<p>The XCVR2450 has a non-contiguous tuning range consisting of a
+high band (4.9-6.0GHz) and a low band (2.4-2.5GHz).</p>
+<p>Transmit Antennas: <strong>J1</strong> or <strong>J2</strong></p>
+<p>Receive Antennas: <strong>J1</strong> or <strong>J2</strong></p>
+<ul class="simple">
+<li><strong>Frontend 0:</strong> Complex baseband signal for selected antenna</li>
+</ul>
+<p>The XCVR2450 uses a common LO for both receive and transmit.
+Even though the API allows the RX and TX LOs to be individually set,
+a change of one LO setting will be reflected in the other LO setting.</p>
+<p>The XCVR2450 does not support full-duplex mode, attempting to operate
+in full-duplex will result in transmit-only operation.</p>
+<p>Transmit Gains:</p>
+<ul class="simple">
+<li><strong>VGA</strong>, Range: 0-30dB</li>
+<li><strong>BB</strong>, Range: 0-5dB</li>
+</ul>
+<p>Receive Gains:</p>
+<ul class="simple">
+<li><strong>LNA</strong>, Range: 0-30.5dB</li>
+<li><strong>VGA</strong>, Range: 0-62dB</li>
+</ul>
+<p>Bandwidths (Hz):</p>
+<ul class="simple">
+<li><strong>RX</strong>: 15M, 19M, 28M, 36M; (each +-0, 5, or 10%)</li>
+<li><strong>TX</strong>: 24M, 36M, 48M</li>
+</ul>
+<p>Sensors:</p>
+<ul class="simple">
+<li><strong>lo_locked</strong>: boolean for LO lock state</li>
+<li><strong>rssi</strong>:      float for rssi in dBm</li>
+</ul>
+</div>
+<div class="section" id="wbx-series">
+<h2>WBX Series</h2>
+<p>The WBX Series boards have 2 quadrature frontends, one transmit, one receive.
+Transmit and Receive default to direct conversion but
+can be used in low IF mode through lo_offset in <strong>uhd::tune_request_t</strong>.</p>
+<p>The WBX Series boards have independent receive and transmit LO's and synthesizers
+allowing full-duplex operation on different transmit and receive frequencies.</p>
+<p>Transmit Antennas: <strong>TX/RX</strong></p>
+<p>Receive Antennas: <strong>TX/RX</strong> or <strong>RX2</strong></p>
+<ul class="simple">
+<li><strong>Frontend 0:</strong> Complex baseband signal for selected antenna</li>
+</ul>
+<p>The user may set the receive antenna to be TX/RX or RX2.
+However, when using an WBX board in full-duplex mode,
+the receive antenna will always be set to RX2, regardless of the settings.</p>
+<p>Transmit Gains: <strong>PGA0</strong>, Range: 0-25dB</p>
+<p>Receive Gains: <strong>PGA0</strong>, Range: 0-31.5dB</p>
+<p>Bandwidths (Hz):</p>
+<ul class="simple">
+<li><strong>RX</strong>: 40M</li>
+<li><strong>TX</strong>: 40M</li>
+</ul>
+<p>Sensors:</p>
+<ul class="simple">
+<li><strong>lo_locked</strong>: boolean for LO lock state</li>
+</ul>
+</div>
+<div class="section" id="sbx-series">
+<h2>SBX Series</h2>
+<p>The SBX Series boards have 2 quadrature frontends, one transmit, one receive.
+Transmit and Receive default to direct conversion but
+can be used in low IF mode through lo_offset in <strong>uhd::tune_request_t</strong>.</p>
+<p>The SBX Series boards have independent receive and transmit LO's and synthesizers
+allowing full-duplex operation on different transmit and receive frequencies.</p>
+<p>Transmit Antennas: <strong>TX/RX</strong></p>
+<p>Receive Antennas: <strong>TX/RX</strong> or <strong>RX2</strong></p>
+<ul class="simple">
+<li><strong>Frontend 0:</strong> Complex baseband signal for selected antenna</li>
+</ul>
+<p>The user may set the receive antenna to be TX/RX or RX2.
+However, when using an SBX board in full-duplex mode,
+the receive antenna will always be set to RX2, regardless of the settings.</p>
+<p>Transmit Gains: <strong>PGA0</strong>, Range: 0-31.5dB</p>
+<p>Receive Gains: <strong>PGA0</strong>, Range: 0-31.5dB</p>
+<p>Bandwidths (Hz):</p>
+<ul class="simple">
+<li><strong>RX</strong>: 40M</li>
+<li><strong>TX</strong>: 40M</li>
+</ul>
+<p>Sensors:</p>
+<ul class="simple">
+<li><strong>lo_locked</strong>: boolean for LO lock state</li>
+</ul>
+<p>LEDs:</p>
+<ul class="simple">
+<li>All LEDs flash when dboard control is initialized</li>
+<li><strong>TX LD</strong>: Transmit Synthesizer Lock Detect</li>
+<li><strong>TX/RX</strong>: Receiver on TX/RX antenna port (No TX)</li>
+<li><strong>RX LD</strong>: Receive Synthesizer Lock Detect</li>
+<li><strong>RX1/RX2</strong>: Receiver on RX2 antenna port</li>
+</ul>
+</div>
+<div class="section" id="tvrx">
+<h2>TVRX</h2>
+<p>The TVRX board has 1 real-mode frontend.
+It is operated at a low IF.</p>
+<p>Receive Antennas: RX</p>
+<ul class="simple">
+<li><strong>Frontend 0:</strong> real-mode baseband signal from antenna RX</li>
+</ul>
+<p>Receive Gains:</p>
+<ul class="simple">
+<li><strong>RF</strong>, Range: -13.3-50.3dB (frequency-dependent)</li>
+<li><strong>IF</strong>, Range: -1.5-32.5dB</li>
+</ul>
+<p>Bandwidth: 6MHz</p>
+</div>
+<div class="section" id="tvrx2">
+<h2>TVRX2</h2>
+<p>The TVRX2 board has 2 real-mode frontends.
+It is operated at a low IF.</p>
+<p>Receive Frontends:</p>
+<ul class="simple">
+<li><strong>Frontend RX1:</strong> real-mode baseband from antenna J100</li>
+<li><strong>Frontend RX2:</strong> real-mode baseband from antenna J140</li>
+</ul>
+<p>Note: The TVRX2 has always-on AGC; the software controllable gain is the
+final gain stage which controls the AGC set-point for output to ADC.</p>
+<p>Receive Gains:</p>
+<ul class="simple">
+<li><strong>IF</strong>, Range: 0.0-30.0dB</li>
+</ul>
+<p>Bandwidth: 1.7MHz, 6MHz, 7MHz, 8MHz, 10MHz</p>
+<p>Sensors:</p>
+<ul class="simple">
+<li><strong>lo_locked</strong>: boolean for LO lock state</li>
+<li><strong>rssi</strong>: float for measured RSSI in dBm</li>
+<li><strong>temperature</strong>: float for measured temperature in degC</li>
+</ul>
+</div>
+</div>
+<div class="section" id="daughterboard-modifications">
+<h1>Daughterboard Modifications</h1>
+<p>Sometimes, daughterboards will require modification
+to work on certain frequencies or to work with certain hardware.
+Modification usually involves moving/removing an SMT component
+and burning a new daughterboard ID into the EEPROM.</p>
+<div class="section" id="dbsrx-mod">
+<h2>DBSRX - Mod</h2>
+<p>Due to different clocking capabilities,
+the DBSRX will require modifications to operate on a non-USRP1 motherboard.
+On a USRP1 motherboard, a divided clock is provided from an FPGA pin
+because the standard daughterboard clock lines cannot provided a divided clock.
+However, on other USRP motherboards, the divided clock is provided
+over the standard daughterboard clock lines.</p>
+<p><strong>Step 1: Move the clock configuration resistor</strong></p>
+<p>Remove <strong>R193</strong> (which is 10 ohms, 0603 size), and put it on <strong>R194</strong>, which is empty.
+This is made somewhat more complicated by the fact that the silkscreen is not clear in that area.
+<strong>R193</strong> is on the back, immediately below the large beige connector, <strong>J2</strong>.
+<strong>R194</strong> is just below, and to the left of <strong>R193</strong>.
+The silkscreen for <strong>R193</strong> is ok, but for <strong>R194</strong>,
+it is upside down, and partially cut off.
+If you lose <strong>R193</strong>, you can use anything from 0 to 10 ohms there.</p>
+<p><strong>Step 2: Burn a new daughterboard id into the EEPROM</strong></p>
+<p>With the daughterboard plugged-in, run the following commands:</p>
+<pre class="literal-block">
+cd &lt;install-path&gt;/share/uhd/utils
+./usrp_burn_db_eeprom --id=0x000d --unit=RX --args=&lt;args&gt; --slot=&lt;slot&gt;
+</pre>
+<ul class="simple">
+<li><strong>&lt;args&gt;</strong> are device address arguments (optional if only one USRP is on your machine)</li>
+<li><strong>&lt;slot&gt;</strong> is the name of the daughterboard slot (optional if the USRP has only one slot)</li>
+</ul>
+</div>
+<div class="section" id="rfx-mod">
+<h2>RFX - Mod</h2>
+<p>Older RFX boards require modifications to use the motherboard oscillator.
+If this is the case, UHD will print a warning about the modification.
+Please follow the modification procedures below:</p>
+<p><strong>Step 1: Disable the daughterboard clocks</strong></p>
+<p>Move <strong>R64</strong> to <strong>R84</strong>. Move <strong>R142</strong> to <strong>R153</strong>.</p>
+<p><strong>Step 2: Connect the motherboard blocks</strong></p>
+<p>Move <strong>R35</strong> to <strong>R36</strong>. Move <strong>R117</strong> to <strong>R115</strong>.
+These are all 0-ohm, so if you lose one, just short across the appropriate pads.</p>
+<p><strong>Step 3: Burn the appropriate daughterboard ID into the EEPROM</strong></p>
+<p>With the daughterboard plugged-in, run the following commands:</p>
+<pre class="literal-block">
+cd &lt;install-path&gt;/share/uhd/utils
+./usrp_burn_db_eeprom --id=&lt;rx_id&gt; --unit=RX --args=&lt;args&gt; --slot=&lt;slot&gt;
+./usrp_burn_db_eeprom --id=&lt;tx_id&gt; --unit=TX --args=&lt;args&gt; --slot=&lt;slot&gt;
+</pre>
+<ul class="simple">
+<li><strong>&lt;rx_id&gt;</strong> choose the appropriate RX ID for your daughterboard<ul>
+<li><strong>RFX400:</strong> 0x0024</li>
+<li><strong>RFX900:</strong> 0x0025</li>
+<li><strong>RFX1800:</strong> 0x0034</li>
+<li><strong>RFX1200:</strong> 0x0026</li>
+<li><strong>RFX2400:</strong> 0x0027</li>
+</ul>
+</li>
+<li><strong>&lt;tx_id&gt;</strong> choose the appropriate TX ID for your daughterboard<ul>
+<li><strong>RFX400:</strong> 0x0028</li>
+<li><strong>RFX900:</strong> 0x0029</li>
+<li><strong>RFX1800:</strong> 0x0035</li>
+<li><strong>RFX1200:</strong> 0x002a</li>
+<li><strong>RFX2400:</strong> 0x002b</li>
+</ul>
+</li>
+<li><strong>&lt;args&gt;</strong> are device address arguments (optional if only one USRP is on your machine)</li>
+<li><strong>&lt;slot&gt;</strong> is the name of the daughterboard slot (optional if the USRP has only one slot)</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+Generated on: 2015-05-18 08:53 UTC.
+
+</div>
+</body>
+</html>
